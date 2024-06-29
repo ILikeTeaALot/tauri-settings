@@ -27,12 +27,12 @@ export async function ensureSettingsFile(options: ConfigOptions = {}): Promise<{
 
 		// create appConfigDir()
 		try {
-			await readDir(finalDir);
+			await readDir(finalDir, { baseDir: BaseDirectory.AppConfig });
 		}
 		catch (e) {
 			// doesn't exist
 			try {
-				await mkdir(finalDir, { recursive: true });
+				await mkdir(finalDir, { baseDir: BaseDirectory.AppConfig, recursive: true });
 			}
 			catch (e) {
 				throw e;
@@ -40,7 +40,7 @@ export async function ensureSettingsFile(options: ConfigOptions = {}): Promise<{
 		}
 
 		try {
-			const content = await readTextFile(settingsFilePath);
+			const content = await readTextFile(settingsFilePath, { baseDir: BaseDirectory.AppConfig });
 
 			return {
 				status: STATUS.FILE_EXISTS,
